@@ -19,8 +19,9 @@ jbhub:
 jbrestore:
     image: gliderlabs/alpine
     volumes:
-        - jbhub
         - data:/tmp/jbrowse
+    volumes_from:
+        - jbhub
     command: /bin/sh -c "tar xvzf /tmp/jbrowse/jbrowse-config.tar.gz -C /config && tar xvzf /tmp/jbrowse/jbrowse-data.tar.gz --strip-components=1 -C /data"
 jbfrontend:
     build: spoke-jbrowse-frontend/
