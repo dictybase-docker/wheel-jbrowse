@@ -17,7 +17,7 @@ jbhub:
         - jbconfig
         - jblog
 jbrestore:
-    image: gliderlabs/alpine
+    image: debian:jessie
     volumes:
         - data:/tmp/jbrowse
     volumes_from:
