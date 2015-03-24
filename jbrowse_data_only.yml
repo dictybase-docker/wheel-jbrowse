@@ -1,0 +1,33 @@
+jbdata:
+    image: progrium/busybox 
+    volumes: 
+        - /data
+jblog:
+    image: progrium/busybox 
+    volumes: 
+        - /log
+jbconfig:
+    image: progrium/busybox
+    volumes:
+        - /config
+jbhub:
+    image: progrium/busybox
+    volumes_from:
+        - jbdata
+        - jbconfig
+        - jblog
+jbrestore:
+    image: gliderlabs/alpine
+    volumes_from:
+        - jbhub
+        - data:/tmp/jbrowse
+    command: /bin/bash -c "tar xvzf /tmp/jbrowse/jbrowse-config.tar.gz -C /config && tar xvzf /tmp/jbrowse/jbrowse-data.tar.gz --strip-components=1 -C /data"
+jbfrontend:
+    build: spoke-jbrowse-frontend
+    volumes_from:
+        - jbhub
+    command: app serve
+    ports:
+        - 9595:9595
+    env_file:
+        - ./env/timezone.env
