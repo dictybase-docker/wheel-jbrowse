@@ -1,0 +1,87 @@
+seqdbdata:
+    image: progrium/busybox
+    volumes:
+        - /var/lib/postgresql/data
+seqpgdb:
+    image: dictybase/jbrowse-postgres:9.3
+    ports: 
+        - "5432:5432"
+    volumes_from:
+        - seqdbdata
+    env_file:
+        - ./env/timezone.env
+        - ./env/database.env
+jbdata:
+    image: progrium/busybox 
+    volumes: 
+        - /data
+jblog:
+    image: progrium/busybox 
+    volumes: 
+        - /log
+jbconfig:
+    image: progrium/busybox
+    volumes:
+        - config:/config/jbrowse
+jbhub:
+    image: progrium/busybox
+    volumes_from:
+        - jbdata
+        - jbconfig
+        - jblog
+jbbackendimp:
+    image: dictybase/jbrowse-backend
+    volumes_from:
+        - jbhub
+    command: /bin/bash -c "app fetch -d -o dictygenomes.zip --rf https://northwestern.box.com/shared/static/1szyuz3avnog9l305qvfiihs7bcbm2ha.zip && app import --config /config/jbrowse/purpureum_canonical.json --gf /data/gff3/purpureum  && app import --config /config/jbrowse/pallidum_canonical.json --gf /data/gff3/pallidum && app import --config /config/jbrowse/fasciculatum_canonical.json --gf /data/gff3/fasciculatum && app import --config /config/jbrowse/discoideum_canonical.json --gf /data/gff3/discoideum -p"  
+    links:
+        - seqpgdb
+    env_file:
+        - ./env/timezone.env
+jbbackendref:
+    image: dictybase/jbrowse-backend
+    volumes_from:
+        - jbhub
+    command: app export -r
+    links:
+        - seqpgdb
+        - jbbackendimp:importer
+    env_file:
+        - ./env/timezone.env
+jbbackendfeat:
+    image: dictybase/jbrowse-backend
+    volumes_from:
+        - jbhub
+    command: app export -f
+    links:
+        - seqpgdb
+        - jbbackendref:refseq
+    env_file:
+        - ./env/timezone.env
+jbbackendname:
+    image: dictybase/jbrowse-backend
+    volumes_from:
+        - jbhub
+    command: app generate
+    links:
+        - jbbackendfeat:feature
+    env_file:
+        - ./env/timezone.env
+jbtracksconf:
+    image: dictybase/jbrowse-tracks-conf
+    volumes_from:
+        - jbhub
+    command: app copy
+    links:
+        - jbbackendname:name
+    env_file:
+        - ./env/timezone.env
+jbfrontend:
+    image: dictybase/jbrowse-frontend
+    volumes_from:
+        - jbhub
+    command: app serve
+    ports:
+        - 9595:9595
+    environment:
+        - TZ=America/Chicago
