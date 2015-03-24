@@ -1,0 +1,96 @@
+containers:
+    seqdbdatac:
+        image: progrium/busybox
+        run:
+            volume:
+                - /var/lib/postgresql/data
+    seqpgdbc:
+        image: dictybase/jbrowse-postgres:9.3
+        run:
+            publish: 
+                - "5432:5432"
+            volumes-from:
+                - seqdbdatac
+            env:
+                - TZ=America/Chicago
+                - SEQDB_USER=
+                - SEQDB_PASS=
+    jbdatac:
+        image: progrium/busybox 
+        run:
+            volume: 
+                - /data
+                - gff3:/data/gff3
+    jbconfigc:
+        image: progrium/busybox
+        run:
+            volume:
+                - config:/config/jbrowse
+    jbhubc:
+        image: progrium/busybox
+        run:
+            volumes-from:
+                - jbdatac
+                - jbconfigc
+    jbbackendimpc:
+        image: dictybase/jbrowse-backend
+        run:
+            volumes-from:
+                - jbhubc
+            cmd: /bin/bash -c "app import --config /config/jbrowse/purpureum_canonical.json --gf /data/gff3/purpureum  && app import --config /config/jbrowse/pallidum_canonical.json --gf /data/gff3/pallidum && app import --config /config/jbrowse/fasciculatum_canonical.json --gf /data/gff3/fasciculatum && app import --config /config/jbrowse/discoideum_canonical.json --gf /data/gff3/discoideum -p"  
+            link:
+                - seqpgdbc:seqpgdb
+            env:
+                - TZ=America/Chicago
+    jbbackendrefc:
+        image: dictybase/jbrowse-backend
+        run:
+            volumes-from:
+                - jbhubc
+            cmd: app export -r
+            link:
+                - seqpgdbc:seqpgdb
+                - jbbackendimpc:importer
+            env:
+                - TZ=America/Chicago
+    jbbackendfeatc:
+        image: dictybase/jbrowse-backend
+        run:
+            volumes-from:
+                - jbhubc
+            cmd: app export -f
+            link:
+                - seqpgdbc:seqpgdb
+                - jbbackendrefc:refseq
+            env:
+                - TZ=America/Chicago
+    jbbackendnamec:
+        image: dictybase/jbrowse-backend
+        run:
+            volumes-from:
+                - jbhubc
+            cmd: app generate
+            link:
+                - jbbackendfeatc:feature
+            env:
+                - TZ=America/Chicago
+    jbtracksconfc:
+        image: dictybase/jbrowse-tracks-conf
+        run:
+            volumes-from:
+                - jbhubc
+            cmd: app copy
+            link:
+                - jbbackendnamec:name
+            env:
+                - TZ=America/Chicago
+    jbfrontendc:
+        image: dictybase/jbrowse-frontend
+        run:
+            volumes-from:
+                - jbhubc
+            cmd: app serve
+            publish:
+                - 9596:9595
+            env:
+                - TZ=America/Chicago
