@@ -1,0 +1,82 @@
+{
+	"description": "D. discoideum genome",
+	"db_adaptor": "Bio::DB::SeqFeature::Store",
+	"db_args": {
+	     "-dsn": "dbi:Pg:database=discoideum;host=seqpgdb",
+	     "-user": "caboose",
+	     "-pass": "gmodmaster",
+	     "-adaptor": "DBI::Pg"
+	},
+
+  "TRACK DEFAULTS": {
+    "class": "feature",
+    "autocomplete": "all"
+  },
+
+  "tracks": [
+    {
+      "track": "gene",
+      "key": "Genes",
+      "feature": ["gene"],
+      "description": 1,
+      "class": "feature2",
+      "category": "Genes"
+    },
+    {
+      "track": "genemodels",
+      "key": "mRNA",
+      "feature": ["mRNA"],
+      "subfeatures": true,
+      "category": "Genes",
+      "class": "transcript",
+      "arrowheadClass": "transcript-arrowhead",
+      "subfeature_classes": {
+        "exon": "transcript-exon"
+      }
+    },
+    {
+      "track": "est",
+      "feature": ["EST_match"],
+      "key": "EST Alignments",
+      "category": "Alignments",
+      "class": "generic_parent",
+      "arrowheadClass": "arrowhead",
+      "subfeature_classes": {
+        "match_part": "match_part"
+      }
+    },
+    {
+      "track": "tblastn.purpureum",
+      "feature": ["protein_match:tblastn.purpureum"],
+      "key": "tblastn Alignments of D.purpureum proteins",
+      "category": "Alignments",
+      "class": "generic_parent",
+      "arrowheadClass": "arrowhead",
+      "subfeature_classes": {
+        "match_part": "match_part"
+      }
+    },
+    {
+      "track": "tblastn.pallidum",
+      "feature": ["protein_match:tblastn.pallidum"],
+      "key": "tblastn Alignments of P.pallidum proteins",
+      "category": "Alignments",
+      "class": "generic_parent",
+      "arrowheadClass": "arrowhead",
+      "subfeature_classes": {
+        "match_part": "match_part"
+      }
+    },
+    {
+      "track": "tblastn.fasciculatum",
+      "feature": ["protein_match:tblastn.fasciculatum"],
+      "key": "tblastn Alignments of D.fasciculatum proteins",
+      "category": "Alignments",
+      "class": "generic_parent",
+      "arrowheadClass": "arrowhead",
+      "subfeature_classes": {
+        "match_part": "match_part"
+      }
+    }
+  ]
+}

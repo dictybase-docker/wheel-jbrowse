@@ -1,0 +1,15 @@
+refseq:
+    - 'discoideum_canonical.json=/data/jbrowse/discoideum'
+    - 'purpureum_canonical.json=/data/jbrowse/purpureum'
+    - 'pallidum_canonical.json=/data/jbrowse/pallidum'
+    - 'fasciculatum_canonical.json=/data/jbrowse/fasciculatum'
+biodb:
+    - 'discoideum_canonical.json=/data/jbrowse/discoideum'
+    - 'purpureum_canonical.json=/data/jbrowse/purpureum'
+    - 'pallidum_canonical.json=/data/jbrowse/pallidum'
+    - 'fasciculatum_canonical.json=/data/jbrowse/fasciculatum'
+dataset:
+    - 'discoideum=/data/jbrowse/discoideum'
+    - 'purpureum=/data/jbrowse/purpureum'
+    - 'fasciculatum=/data/jbrowse/fasciculatum'
+    - 'pallidum=/data/jbrowse/pallidum'

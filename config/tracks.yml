@@ -1,0 +1,5 @@
+config:
+    - '/config/jbrowse/discoideum_tracks.conf=/data/jbrowse/discoideum'
+    - '/config/jbrowse/purpureum_tracks.conf=/data/jbrowse/purpureum'
+    - '/config/jbrowse/pallidum_tracks.conf=/data/jbrowse/pallidum'
+    - '/config/jbrowse/fasciculatum_tracks.conf=/data/jbrowse/fasciculatum'

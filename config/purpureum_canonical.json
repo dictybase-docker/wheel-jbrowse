@@ -1,0 +1,60 @@
+{
+	"description": "D. purpureum genome",
+	"db_adaptor": "Bio::DB::SeqFeature::Store",
+	"db_args": {
+	     "-dsn": "dbi:Pg:database=purpureum;host=seqpgdb",
+	     "-user": "caboose",
+	     "-pass": "gmodmaster",
+	     "-adaptor": "DBI::Pg"
+	},
+
+  "TRACK DEFAULTS": {
+    "class": "feature",
+    "autocomplete": "all"
+  },
+
+  "tracks": [
+    {
+      "track": "gene",
+      "key": "Genes",
+      "feature": ["gene"],
+      "description": 1,
+      "class": "feature2",
+      "category": "Purpureum genes"
+    },
+    {
+      "track": "genemodels",
+      "key": "mRNA",
+      "feature": ["mRNA:JGI"],
+      "subfeatures": true,
+      "category": "Purpureum genes",
+      "class": "transcript",
+      "arrowheadClass": "transcript-arrowhead",
+      "subfeature_classes": {
+        "exon": "transcript-exon"
+      }
+    },
+    {
+      "track": "est",
+      "feature": ["EST_match"],
+      "key": "EST Alignments",
+      "category": "Purpureum alignments",
+      "class": "generic_parent",
+      "arrowheadClass": "arrowhead",
+      "subfeature_classes": {
+        "match_part": "match_part"
+      }
+    },
+    {
+      "track": "tblastn",
+      "feature": ["protein_match"],
+      "key": "tblastn Alignments of D.discoideum proteins",
+      "category": "Purpureum alignments",
+      "class": "generic_parent",
+      "arrowheadClass": "arrowhead",
+      "subfeature_classes": {
+        "match_part": "match_part"
+      }
+    }
+  ]
+}

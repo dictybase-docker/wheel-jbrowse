@@ -1,0 +1,61 @@
+{
+	"description": "D. fasciculatum genome",
+	"db_adaptor": "Bio::DB::SeqFeature::Store",
+	"db_args": {
+	     "-dsn": "dbi:Pg:database=fasciculatum;host=seqpgdb",
+	     "-user": "caboose",
+	     "-pass": "gmodmaster",
+	     "-adaptor": "DBI::Pg"
+	},
+  "TRACK DEFAULTS": {
+    "class": "feature",
+    "autocomplete": "all"
+  },
+  "tracks": [
+    {
+      "track": "contig",
+      "key": "Contig",
+      "feature": ["contig"],
+      "class": "feature5",
+      "category": "Fasciculatum genome assembly"
+    },
+    {
+      "track": "gene",
+      "key": "Genes",
+      "feature": ["gene"],
+      "class": "feature2",
+      "category": "Fasciculatum genes"
+    },
+    {
+      "track": "genemodels",
+      "key": "mRNA",
+      "feature": ["mRNA"],
+      "subfeatures": true,
+      "category": "Fasciculatum genes",
+      "class": "transcript",
+      "arrowheadClass": "transcript-arrowhead",
+      "subfeature_classes": {
+        "exon": "transcript-exon"
+      }
+    },
+    {
+      "track": "tRNA",
+      "key": "tRNA",
+      "feature": ["tRNA"],
+      "category": "Fasciculatum genes",
+      "class": "transcript",
+      "arrowheadClass": "transcript-arrowhead"
+    },
+    {
+      "track": "tblastn",
+      "feature": ["protein_match"],
+      "key": "tblastn Alignments of D.discoideum proteins",
+      "category": "Fasciculatum alignments",
+      "class": "generic_parent",
+      "arrowheadClass": "arrowhead",
+      "subfeature_classes": {
+        "match_part": "match_part"
+      }
+    }
+  ]
+}

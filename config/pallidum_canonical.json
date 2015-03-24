@@ -1,0 +1,69 @@
+{
+	"description": "P. pallidum genome",
+	"db_adaptor": "Bio::DB::SeqFeature::Store",
+	"db_args": {
+	     "-dsn": "dbi:Pg:database=pallidum;host=seqpgdb",
+	     "-user": "caboose",
+	     "-pass": "gmodmaster",
+	     "-adaptor": "DBI::Pg"
+	},
+  "TRACK DEFAULTS": {
+    "class": "feature",
+    "autocomplete": "all"
+  },
+  "tracks": [
+    {
+      "track": "contig",
+      "key": "Contig",
+      "feature": ["contig"],
+      "class": "feature5",
+      "category": "Pallium genome assembly"
+    },
+    {
+      "track": "gene",
+      "key": "Genes",
+      "feature": ["gene"],
+      "class": "feature2",
+      "category": "Pallidum genes"
+    },
+    {
+      "track": "genemodels",
+      "key": "mRNA",
+      "feature": ["mRNA"],
+      "subfeatures": true,
+      "category": "Pallidum genes",
+      "class": "transcript",
+      "arrowheadClass": "transcript-arrowhead",
+      "subfeature_classes": {
+        "exon": "transcript-exon"
+      }
+    },
+    {
+      "track": "rRNA",
+      "key": "rRNA",
+      "feature": ["rRNA"],
+      "category": "Pallidum genes",
+      "class": "transcript",
+      "arrowheadClass": "transcript-arrowhead"
+    },
+    {
+      "track": "tRNA",
+      "key": "tRNA",
+      "feature": ["tRNA"],
+      "category": "Pallidum genes",
+      "class": "transcript",
+      "arrowheadClass": "transcript-arrowhead"
+    },
+    {
+      "track": "tblastn",
+      "feature": ["protein_match"],
+      "key": "tblastn Alignments of D.discoideum proteins",
+      "category": "Pallidum alignments",
+      "class": "generic_parent",
+      "arrowheadClass": "arrowhead",
+      "subfeature_classes": {
+        "match_part": "match_part"
+      }
+    }
+  ]
+}
