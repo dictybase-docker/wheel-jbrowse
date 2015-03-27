@@ -2,7 +2,7 @@
 	"description": "D. discoideum genome",
 	"db_adaptor": "Bio::DB::SeqFeature::Store",
 	"db_args": {
-	     "-dsn": "dbi:Pg:database=discoideum;host=seqpgdb",
+	     "-dsn": "dbi:Pg:database=discoideum;host=127.0.0.1",
 	     "-user": "caboose",
 	     "-pass": "gmodmaster",
 	     "-adaptor": "DBI::Pg"
@@ -17,15 +17,21 @@
     {
       "track": "gene",
       "key": "Genes",
-      "feature": ["gene"],
+      "feature": ["gene", "pseudogene"],
       "description": 1,
       "class": "feature2",
       "category": "Genes"
     },
     {
+      "track": "contig",
+      "key": "Contigs",
+      "feature": ["contig"],
+      "description": 1
+    },
+    {
       "track": "genemodels",
       "key": "mRNA",
-      "feature": ["mRNA"],
+      "feature": ["mRNA", "pseudogenic_transcript"],
       "subfeatures": true,
       "category": "Genes",
       "class": "transcript",
@@ -33,6 +39,29 @@
       "subfeature_classes": {
         "exon": "transcript-exon"
       }
+    },
+    {
+        "track": "ncRNA",
+        "key": "ncRNA",
+        "subfeatures": true,
+        "feature": ["snRNA",
+                "class_I_RNA",
+                "class_II_RNA",
+                "C_D_box_snoRNA",
+                "H_ACA_box_snoRNA",
+                "SRP_RNA",
+                "RNase_P_RNA",
+                "RNase_MRP_RNA",
+                "snoRNA",
+                "rRNA",
+                "ncRNA"
+        ]
+    },
+    {
+        "track": "tRNA",
+        "key": "tRNA",
+        "subfeatures": true,
+        "feature": ["tRNA"]
     },
     {
       "track": "est",
