@@ -43,8 +43,42 @@ func main() {
 				},
 			},
 		},
+		{
+			Name:   "remove",
+			Usage:  "Remove trackList.json file from jbrowse data directory",
+			Action: RemoveAction,
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:   "config-file",
+					Usage:  "Yaml configuration file for removing trackList.json",
+					EnvVar: "TRACKS_CONF",
+					Value:  "/config/jbrowse/tracks.yml",
+				},
+			},
+		},
 	}
 	app.Run(os.Args)
+}
+
+func RemoveAction(c *cli.Context) {
+	b, err := ioutil.ReadFile(c.String("config-file"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	var tconf TracksConf
+	err = yaml.Unmarshal(b, &tconf)
+	if err != nil {
+		log.Fatal(err)
+	}
+	// Go through the list and remove tracklist.json
+	for _, cs := range tconf.Config {
+		cl := strings.Split(cs, "=")
+		err := os.Remove(filepath.Join(cl[1], "trackList.json"))
+		if err != nil {
+			log.Fatal(err)
+		}
+		log.Printf("Removed trackList.json from %s", cl[1])
+	}
 }
 
 func CopyAction(c *cli.Context) {
