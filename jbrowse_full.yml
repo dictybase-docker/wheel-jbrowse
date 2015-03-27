@@ -22,7 +22,7 @@ jblog:
 jbconfig:
     image: progrium/busybox
     volumes:
-        - config:/config/jbrowse
+        - config:/config
 jbhub:
     image: progrium/busybox
     volumes_from:
@@ -71,13 +71,13 @@ jbtracksconf:
     image: dictybase/jbrowse-tracks-conf
     volumes_from:
         - jbhub
-    command: app copy
+    command: /bin/bash -c "app copy && app remove"
     links:
         - jbbackendname:name
     env_file:
         - ./env/timezone.env
 jbfrontend:
-    image: dictybase/jbrowse-frontend
+    build: spoke-jbrowse-frontend/
     volumes_from:
         - jbhub
     command: app serve
