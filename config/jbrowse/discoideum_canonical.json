@@ -2,7 +2,7 @@
 	"description": "D. discoideum genome",
 	"db_adaptor": "Bio::DB::SeqFeature::Store",
 	"db_args": {
-	     "-dsn": "dbi:Pg:database=discoideum;host=127.0.0.1",
+	     "-dsn": "dbi:Pg:database=discoideum;host=seqpgdb",
 	     "-user": "caboose",
 	     "-pass": "gmodmaster",
 	     "-adaptor": "DBI::Pg"
