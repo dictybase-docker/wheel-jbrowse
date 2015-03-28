@@ -68,7 +68,7 @@ jbbackendname:
     env_file:
         - ./env/timezone.env
 jbtracksconf:
-    image: dictybase/jbrowse-tracks-conf
+    build: spoke-jbrowse-tracks-conf/
     volumes_from:
         - jbhub
     command: /bin/bash -c "app copy && app remove"
@@ -83,5 +83,5 @@ jbfrontend:
     command: app serve
     ports:
         - 9595:9595
-    environment:
-        - TZ=America/Chicago
+    env_file:
+        - ./env/timezone.env
