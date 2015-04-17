@@ -2,6 +2,10 @@ jbdata:
     image: progrium/busybox 
     volumes: 
         - /data
+jbngs:
+    image: progrium/busybox 
+    volumes: 
+        - /mnt/ngs:/ngs
 jblog:
     image: progrium/busybox 
     volumes: 
@@ -16,13 +20,14 @@ jbhub:
         - jbdata
         - jbconfig
         - jblog
+        - jbngs
 jbrestore:
     build: spoke-jbrowse-tracks-conf/
     volumes:
         - data:/tmp/jbrowse
     volumes_from:
         - jbhub
-    command: /bin/sh -c "tar xzf /tmp/jbrowse/jbrowse-data.tar.gz --strip-components=1 -C /data && app copy --nowait && app watchcopy"
+    command: /bin/sh -c "tar xzf /tmp/jbrowse/jbrowse-data.tar.gz --strip-components=1 -C /data && ln -sf /ngs/rnaseq /data/jbrowse/rnaseq && app copy --nowait && app watchcopy"
 jbfrontend:
     build: spoke-jbrowse-frontend/
     volumes_from:
