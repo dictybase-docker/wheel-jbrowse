@@ -20,13 +20,17 @@ Source repository for docker image to run jbrowse at [dictyBase](http://dictybas
 git clone https://github.com/dictybase-docker/wheel-jbrowse.git
 ```
 
+* Download JBrowse data inside a ``data``` subfolder.
+
+```
+mkdir -p $PWD/data && curl -L -o data/jbrowse-data.tar.gz https://northwestern.box.com/shared/static/xw7sfh72mnreb4nwwkjbj8lvzo3il9dq.gz
+```
+
 * Start JBrowse application
 
 ```
 docker-compose -f jbrowse_full.yml up -d
 ```
-
-* Wait for ~20 mins(for the data to be formatted).
 
 * Open browser at http://localhost:9595
 
