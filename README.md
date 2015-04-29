@@ -35,12 +35,27 @@ docker-compose -f jbrowse_full.yml up -d
 * Open browser at http://localhost:9595
 
 ## Detail guide
-### Strategy
 In order to understand the containerization strategy for JBrowse,
 understanding the structure and concept of JBrowse application is
-important. The gory details of most of the concepts are described in the
+important. 
+
+### JBrowse concepts
+* Source code contains both the perl scripts(for flat file backend) and client
+  side files(for display).
+* It is recommended to have the flat file data inside the source code checkout
+  folder. Symlinking is an option for mapping data that are outside of source
+  code folder tree.
+* There is one global config file(jbrowse.conf) in the root of the source
+  tree. There can multiple config files for every genome(tracks.conf) to
+  configure the display of tracks. Each config file could also have a _json_
+  counterpart(jbrowse.json and trackList.json).
+* Needs a static file server for display.
+
+The gory details of most of the concepts are described in the
 JBrowse [guide](http://gmod.org/wiki/JBrowse_Configuration_Guide).
 
+
+### Strategy for containerization
 #### Data containers
 Data container concepts from radial topology is borrowed to managed various
 parts of JBrowse application. Here are the list of data container volumes and
@@ -91,11 +106,30 @@ configuration](https://github.com/dictybase-docker/wheel-jbrowse/blob/master/con
 file.
 
 #### NGS data
+The NGS(next generation sequence) data is expected to be present in
+```/mnt/ngs``` folder of host OS. The ```/mnt/ngs``` folder is made available
+through `/ngs` volume through a docker data container. The NGS data is also
+expected to follow a folder structure like this ...
 
+```
+    rnaseq
+    ├── PRJNA118577
+    │   ├── bam
+    │   └── bw
+    └── PRJNA143419
+        ├── bam
+            └── bw
+```
+
+The __RNA-Seq__ data goes inside a top level `rnaseq` folder. Each dataset
+will be inside a folder named after its _study accession_ number. Bam and
+bigwig files will be inside their respective folders. To make it available in
+JBrowse data folder, a symlink is created between `/data/jbrowse/rnaseq` and
+`/ngs/rnaseq` subfolders. In effect the NGS data gets available inside JBrowse
+data folder.
 
 ### Starting containers
-The container setup will run JBrowse using the flatfile backend where the data
-is served from custom formatted json files. The containers could be started
+The containers could be started
 using two different methods, one is __end to end__ and the other is __data only__.
 
 #### End to End
