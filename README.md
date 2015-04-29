@@ -129,8 +129,9 @@ JBrowse data folder, a symlink is created between `/data/jbrowse/rnaseq` and
 data folder.
 
 ### Starting containers
-The containers could be started
-using two different methods, one is __end to end__ and the other is __data only__.
+The JBrowse application could be started using two different flavours, one is __end to
+end__ and the other is __data only__. Each of which in turn could be run with
+or without any NGS data.
 
 #### End to End
 In this setup data is generated from GFF3 files through a temporary postgresql
@@ -148,7 +149,3 @@ data is used directly for running jbrowse.
 ```
 docker-compose -f jbrowse_data_only.yml up -d
 ```
-
-
-
-
