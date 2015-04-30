@@ -1,5 +1,11 @@
 # JBrowse for dictyBase
-Source repository for docker image to run jbrowse at [dictyBase](http://dictybase.org).
+Source repository for docker image to run [JBrowse](http://jbrowse.org) at [dictyBase](http://dictybase.org).
+
+This repository contains `Dockerfile` for various containers needed to
+orchestrate and run JBrowse application.
+
+[Features](#features) | [Installation](#installation) | [Quickstart guide](#quickstart) | [Detail guide](#detail-guide)
+--- | --- | --- | --- 
 
 ## Features
 * Uses the flatfile backend of JBrowse.
