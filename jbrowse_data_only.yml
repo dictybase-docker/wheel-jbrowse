@@ -1,25 +1,20 @@
 jbdata:
-    restart: always
     image: progrium/busybox 
     volumes: 
         - /data
 jbngs:
-    restart: always
     image: progrium/busybox 
     volumes: 
         - /mnt/ngs:/ngs
 jblog:
-    restart: always
     image: progrium/busybox 
     volumes: 
         - /log
 jbconfig:
-    restart: always
     image: progrium/busybox
     volumes:
         - config:/config
 jbhub:
-    restart: always
     image: progrium/busybox
     volumes_from:
         - jbdata
@@ -27,7 +22,6 @@ jbhub:
         - jblog
         - jbngs
 jbrestore:
-    restart: always
     build: spoke-jbrowse-tracks-conf/
     volumes:
         - data:/tmp/jbrowse
