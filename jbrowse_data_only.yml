@@ -13,7 +13,7 @@ jblog:
 jbconfig:
     image: progrium/busybox
     volumes:
-        - config:/config
+        - ${PWD}/config:/config
 jbhub:
     image: progrium/busybox
     volumes_from:
@@ -22,12 +22,13 @@ jbhub:
         - jblog
         - jbngs
 jbrestore:
+    restart: always
     build: spoke-jbrowse-tracks-conf/
     volumes:
-        - data:/tmp/jbrowse
+        - ${PWD}/data:/opt/jbrowse
     volumes_from:
         - jbhub
-    command: /bin/sh -c "tar xzf /tmp/jbrowse/jbrowse-data.tar.gz --strip-components=1 -C /data && ln -sf /ngs/rnaseq /data/jbrowse/rnaseq && app copy --nowait && app watchcopy"
+    command: /bin/sh -c "tar xzf /opt/jbrowse/jbrowse-data.tar.gz --strip-components=1 -C /data && ln -sf /ngs/rnaseq /data/jbrowse/rnaseq && app copy --nowait && app watchcopy"
 jbfrontend:
     restart: always
     build: spoke-jbrowse-frontend/
