@@ -1,20 +1,25 @@
 jbdata:
+    restart: always
     image: progrium/busybox 
     volumes: 
         - /data
 jbngs:
+    restart: always
     image: progrium/busybox 
     volumes: 
         - /mnt/ngs:/ngs
 jblog:
+    restart: always
     image: progrium/busybox 
     volumes: 
         - /log
 jbconfig:
+    restart: always
     image: progrium/busybox
     volumes:
         - config:/config
 jbhub:
+    restart: always
     image: progrium/busybox
     volumes_from:
         - jbdata
@@ -22,6 +27,7 @@ jbhub:
         - jblog
         - jbngs
 jbrestore:
+    restart: always
     build: spoke-jbrowse-tracks-conf/
     volumes:
         - data:/tmp/jbrowse
@@ -29,6 +35,7 @@ jbrestore:
         - jbhub
     command: /bin/sh -c "tar xzf /tmp/jbrowse/jbrowse-data.tar.gz --strip-components=1 -C /data && ln -sf /ngs/rnaseq /data/jbrowse/rnaseq && app copy --nowait && app watchcopy"
 jbfrontend:
+    restart: always
     build: spoke-jbrowse-frontend/
     volumes_from:
         - jbhub
